@@ -31,7 +31,7 @@
 
     // Load stats and custom questions from localStorage
     window.loadStorage = function() {
-        // Load default statistics
+        // Load default statistics from localStorage (fallback when signed out)
         const savedStats = localStorage.getItem('pca_stats');
         if (savedStats) {
             try {
@@ -61,10 +61,17 @@
         }
     };
 
-    // Save stats and custom questions to localStorage
+    // Save stats and custom questions to localStorage AND Firestore (if signed in)
     window.saveStorage = function() {
         localStorage.setItem('pca_stats', JSON.stringify(window.stats));
         localStorage.setItem('pca_custom_questions', JSON.stringify(window.customQuestionsList));
+
+        // Sync to Firestore when a user is signed in
+        const user = window._currentUser;
+        if (user && window.FirebaseService) {
+            window.FirebaseService.saveStatsToFirestore(user.uid, window.stats)
+                .catch(e => console.warn('[Main] Firestore stats sync failed:', e));
+        }
     };
 
     // Add new questions into the custom array and update master

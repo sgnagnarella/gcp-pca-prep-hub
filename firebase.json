@@ -15,5 +15,13 @@
         "destination": "/index.html"
       }
     ]
+  },
+  "auth": {
+    "providers": {
+      "googleSignIn": {
+        "oAuthBrandDisplayName": "GCP PCA Prep Hub",
+        "supportEmail": "sgnagnarella@gmail.com"
+      }
+    }
   }
 }

@@ -104,7 +104,7 @@
     };
 
     const Planner = {
-        // Load checklists state from local storage
+        // Load checklists state from localStorage (initial load; Firestore overrides come via applyRemoteCheckedItems)
         loadProgress: function() {
             const savedPlanner = localStorage.getItem('pca_planner');
             if (savedPlanner) {
@@ -114,9 +114,30 @@
             }
         },
 
-        // Save progress to local storage
+        // Apply remote Firestore checkedItems array (called by firebase.js onAuthStateChanged)
+        applyRemoteCheckedItems: function(checkedItemsArr) {
+            plannerProgress = {};
+            if (Array.isArray(checkedItemsArr)) {
+                checkedItemsArr.forEach(key => { plannerProgress[key] = true; });
+            }
+            // Re-render planner if the planner tab is in the DOM
+            const container = document.getElementById('planner-recommendations-container');
+            if (container && container.children.length > 0) {
+                this.renderPlanner();
+            }
+        },
+
+        // Save progress to localStorage AND Firestore (if signed in)
         saveProgress: function() {
             localStorage.setItem('pca_planner', JSON.stringify(plannerProgress));
+
+            // Sync to Firestore when user is signed in
+            const user = window._currentUser;
+            if (user && window.FirebaseService) {
+                const checkedItems = Object.keys(plannerProgress).filter(k => plannerProgress[k]);
+                window.FirebaseService.savePlannerToFirestore(user.uid, checkedItems)
+                    .catch(e => console.warn('[Planner] Firestore planner sync failed:', e));
+            }
         },
 
         // Render interactive list of recommended materials and tasks
