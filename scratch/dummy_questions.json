@@ -1,0 +1,15 @@
+[
+  {
+    "id": 9999,
+    "category": "Part I: Operations & Developer Tools",
+    "question": "This is a dummy custom question for import testing. What is Sebastian's favorite color?",
+    "options": [
+      "Green",
+      "Red",
+      "Blue",
+      "Yellow"
+    ],
+    "answer": 2,
+    "explanation": "According to user memories, the favorite color is Blue."
+  }
+]

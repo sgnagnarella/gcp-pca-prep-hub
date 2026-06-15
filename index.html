@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GCP Professional Cloud Architect (PCA) Prep Hub</title>
+    <meta name="description" content="A premium, modular study dashboard and practice exam engine for Sebastian's Google Cloud PCA exam notes.">
+    <!-- Google Fonts are preloaded within css/styles.css -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+    <div class="app-container">
+
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div>
+                <div class="brand-section">
+                    <div class="brand-icon">
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+                            <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+                            <line x1="6" y1="6" x2="6.01" y2="6"></line>
+                            <line x1="6" y1="18" x2="6.01" y2="18"></line>
+                        </svg>
+                    </div>
+                    <div class="brand-name">
+                        <h2>GCP Architect</h2>
+                        <span>Exam Prep Hub</span>
+                    </div>
+                </div>
+
+                <nav class="nav-menu">
+                    <button onclick="switchTab('dashboard')" id="tab-dashboard" class="nav-item active">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="14" width="7" height="7"></rect>
+                            <rect x="3" y="14" width="7" height="7"></rect>
+                        </svg>
+                        <span>Dashboard</span>
+                    </button>
+                    <button onclick="switchTab('exam')" id="tab-exam" class="nav-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                            <polyline points="10 9 9 9 8 9"></polyline>
+                        </svg>
+                        <span>Mock Exam</span>
+                    </button>
+                    <button onclick="switchTab('assessment')" id="tab-assessment" class="nav-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="20" x2="18" y2="10"></line>
+                            <line x1="12" y1="20" x2="12" y2="4"></line>
+                            <line x1="6" y1="20" x2="6" y2="14"></line>
+                        </svg>
+                        <span>Skill Levels</span>
+                    </button>
+                    <button onclick="switchTab('planner')" id="tab-planner" class="nav-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                        <span>Study Planner</span>
+                    </button>
+                    <button onclick="switchTab('notes')" id="tab-notes" class="nav-item">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                            <path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5v-15z"></path>
+                        </svg>
+                        <span>Cheat Sheets</span>
+                    </button>
+                </nav>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="theme-switch-wrapper">
+                    <span>Appearance</span>
+                    <button id="theme-toggle-btn" class="theme-toggle-btn" onclick="toggleTheme()">
+                        <!-- Icon toggles dynamically in ui.js -->
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                        <span>Dark Mode</span>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+
+            <!-- DASHBOARD TAB -->
+            <div id="content-dashboard" class="tab-content active">
+                <div class="hero-banner">
+                    <div class="hero-content">
+                        <span class="hero-tag">Strategic Study Guide</span>
+                        <h2 style="font-size: 2rem; font-weight: 800;">Google Certified Professional Cloud Architect</h2>
+                        <p style="margin-top: 0.5rem; line-height: 1.6;">
+                            This preparation hub combines the insights of Sebastian's Google-certified notes with Dan Sullivan's Official Sybex Study Guide. Assess your architectural skills, target weaknesses, and review documentation checkpoints.
+                        </p>
+                        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                            <button onclick="switchTab('exam')" class="btn btn-primary">Take a Practice Exam</button>
+                            <button onclick="switchTab('notes')" class="btn btn-secondary">Browse Cheat Sheets</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Cards Row -->
+                <div class="grid-stats">
+                    <div class="glass-card stat-item">
+                        <div class="stat-header">
+                            <span>Exams Completed</span>
+                            <div class="stat-icon blue">
+                                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                            </div>
+                        </div>
+                        <span id="stats-completed" class="stat-value">0</span>
+                    </div>
+                    <div class="glass-card stat-item">
+                        <div class="stat-header">
+                            <span>Best Exam Score</span>
+                            <div class="stat-icon indigo">
+                                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
+                            </div>
+                        </div>
+                        <span id="stats-best" class="stat-value" style="color: var(--gcp-green);">--</span>
+                    </div>
+                    <div class="glass-card stat-item">
+                        <div class="stat-header">
+                            <span>Average Score</span>
+                            <div class="stat-icon green">
+                                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+                            </div>
+                        </div>
+                        <span id="stats-avg" class="stat-value" style="color: var(--gcp-blue);">--</span>
+                    </div>
+                </div>
+
+                <!-- Syllabus Cards Grid -->
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                    <h3 style="font-size: 1.25rem; font-weight: 800;">Syllabus Modules (10 Core Parts)</h3>
+                    <div class="grid-syllabus">
+                        <div class="glass-card interactive syllabus-card" onclick="showSectionNotes('part1')">
+                            <span class="part-tag">Part I</span>
+                            <h3>Operations &amp; Dev Tools</h3>
+                            <p>Billing Exports, Cloud Build, SRE golden signals, monitoring dashboards.</p>
+                        </div>
+                        <div class="glass-card interactive syllabus-card" onclick="showSectionNotes('part2')">
+                            <span class="part-tag">Part II</span>
+                            <h3>Networking &amp; LB</h3>
+                            <p>VPCs, Shared VPC, Peering, Hybrid Interconnects, anycast Load Balancers.</p>
+                        </div>
+                        <div class="glass-card interactive syllabus-card" onclick="showSectionNotes('part3')">
+                            <span class="part-tag">Part III</span>
+                            <h3>Security &amp; IAM</h3>
+                            <p>Resource inheritance, Custom Roles, CMEK/CSEK, VPC Service Controls.</p>
+                        </div>
+                        <div class="glass-card interactive syllabus-card" onclick="showSectionNotes('part4')">
+                            <span class="part-tag">Part IV</span>
+                            <h3>Storage &amp; Encryption</h3>
+                            <p>GCS classes, Object Lifecycle Policies, Bucket locks, Filestore NFS, PDs.</p>
+                        </div>
+                        <div class="glass-card interactive syllabus-card" onclick="showSectionNotes('part5')">
+                            <span class="part-tag">Part V</span>
+                            <h3>Virtual Machines</h3>
+                            <p>Compute Engine configurations, Managed Instance Groups, Autohealing, Spot VMs.</p>
+                        </div>
+                        <div class="glass-card interactive syllabus-card" onclick="showSectionNotes('part6')">
+                            <span class="part-tag">Part VI</span>
+                            <h3>Managed Compute</h3>
+                            <p>App Engine Standard/Flex, serverless scaling on Cloud Run, Cloud Functions.</p>
+                        </div>
+                        <div class="glass-card interactive syllabus-card" onclick="showSectionNotes('part7')">
+                            <span class="part-tag">Part VII</span>
+                            <h3>GKE / Kubernetes</h3>
+                            <p>Autopilot vs Standard, node control, Deployments, service configs, rollbacks.</p>
+                        </div>
+                        <div class="glass-card interactive syllabus-card" onclick="showSectionNotes('part8')">
+                            <span class="part-tag">Part VIII</span>
+                            <h3>Anthos &amp; Hybrid</h3>
+                            <p>GKE Enterprise architectures, Config Sync, Anthos Service Mesh, VM migrations.</p>
+                        </div>
+                        <div class="glass-card interactive syllabus-card" onclick="showSectionNotes('part9')">
+                            <span class="part-tag">Part IX</span>
+                            <h3>Databases &amp; Pipelines</h3>
+                            <p>Cloud SQL HA, Spanner global consistency, AlloyDB, BigQuery analytics, Dataflow.</p>
+                        </div>
+                        <div class="glass-card interactive syllabus-card" onclick="showSectionNotes('part10')">
+                            <span class="part-tag">Part X</span>
+                            <h3>Case Studies &amp; SRE</h3>
+                            <p>Mountkirk Games, TerramEarth, Dress4Win, EHR Healthcare compliance, SLA metrics.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MOCK EXAM TAB -->
+            <div id="content-exam" class="tab-content">
+                <div class="glass-card exam-layout">
+                    <!-- Exam Setup View -->
+                    <div id="exam-setup" class="exam-setup-box">
+                        <div class="exam-setup-icon">
+                            <span>200</span>
+                        </div>
+                        <h3 style="font-size: 1.5rem; font-weight: 800;">Practice Mock Exam</h3>
+                        <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6;">
+                            Test your engineering judgment across 200+ scenario questions. Filter by specific topics and choose your preferred study mode.
+                        </p>
+
+                        <!-- Toggle Mode switches -->
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 1rem; align-items: center;">
+                            <span style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted);">Select Session Mode</span>
+                            <div class="mode-switch-container">
+                                <button id="mode-btn-practice" class="mode-switch-btn active" onclick="Quiz.selectMode('practice')" data-mode="practice">Practice Exam</button>
+                                <button id="mode-btn-study" class="mode-switch-btn" onclick="Quiz.selectMode('study')" data-mode="study">Study Flashcards</button>
+                            </div>
+                        </div>
+
+                        <!-- Dropdown select controls -->
+                        <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; margin-top: 1rem;">
+                            <div style="display: flex; flex-direction: column; gap: 0.25rem; text-align: left;">
+                                <label for="exam-count-selector" style="font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Question Count</label>
+                                <select id="exam-count-selector" class="select-control">
+                                    <option value="10">10 Questions</option>
+                                    <option value="20" selected>20 Questions</option>
+                                    <option value="50">50 Questions</option>
+                                    <option value="100">100 Questions</option>
+                                    <option value="150">150 Questions</option>
+                                    <option value="all">All Questions</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Checkbox Domain Filters -->
+                        <div style="margin-top: 1.5rem; width: 100%;">
+                            <span style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.5rem; display: block;">Filter by GCP Domain Categories (Leave empty to include all)</span>
+                            <div class="category-select-grid">
+                                <label class="category-select-item">
+                                    <input type="checkbox" value="Part I: Operations & Developer Tools">
+                                    <span>Part I: Ops & Dev Tools</span>
+                                </label>
+                                <label class="category-select-item">
+                                    <input type="checkbox" value="Part II: Networking & Load Balancing">
+                                    <span>Part II: Network & LB</span>
+                                </label>
+                                <label class="category-select-item">
+                                    <input type="checkbox" value="Part III: Security, Identity & Compliance">
+                                    <span>Part III: Security & IAM</span>
+                                </label>
+                                <label class="category-select-item">
+                                    <input type="checkbox" value="Part IV: Storage & Encryption">
+                                    <span>Part IV: Storage & Encrypt</span>
+                                </label>
+                                <label class="category-select-item">
+                                    <input type="checkbox" value="Part V: Compute & Virtual Machines">
+                                    <span>Part V: Virtual Machines</span>
+                                </label>
+                                <label class="category-select-item">
+                                    <input type="checkbox" value="Part VI: Managed Compute & Serverless">
+                                    <span>Part VI: Managed Compute</span>
+                                </label>
+                                <label class="category-select-item">
+                                    <input type="checkbox" value="Part VII: Google Kubernetes Engine">
+                                    <span>Part VII: GKE / Kubernetes</span>
+                                </label>
+                                <label class="category-select-item">
+                                    <input type="checkbox" value="Part VIII: Hybrid, Multi-Cloud & Anthos">
+                                    <span>Part VIII: Anthos & Hybrid</span>
+                                </label>
+                                <label class="category-select-item">
+                                    <input type="checkbox" value="Part IX: Databases & Data Tooling">
+                                    <span>Part IX: Databases & Data</span>
+                                </label>
+                                <label class="category-select-item">
+                                    <input type="checkbox" value="Part X: Case Studies & SRE">
+                                    <span>Part X: Case Studies & SRE</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Drag and Drop JSON custom database uploader -->
+                        <div style="margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; width: 100%;">
+                            <span style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); display: block;" id="import-total-label">Total Questions: 200 (0 Custom Imported)</span>
+                            <div class="import-dropzone" id="import-dropzone">
+                                <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="17 8 12 3 7 8"></polyline>
+                                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                                </svg>
+                                <span style="font-weight: 600; font-size: 0.9rem;">Import Custom Question Bank (.json)</span>
+                                <span style="font-size: 0.75rem; color: var(--text-muted);">Drag and drop a file here or click to browse files</span>
+                            </div>
+                            <input type="file" id="import-file-input" style="display: none;" accept=".json">
+                            
+                            <button onclick="Quiz.clearCustom()" class="btn btn-danger" style="margin-top: 1rem; font-size: 0.75rem; padding: 0.4rem 1rem;">Clear Imported Banks</button>
+                        </div>
+
+                        <button onclick="startExam()" class="btn btn-primary" style="padding: 1rem 2.5rem; margin-top: 1.5rem;">Start Session</button>
+                    </div>
+
+                    <!-- Exam Active View -->
+                    <div id="exam-active" style="display: none; width: 100%;">
+                        <div class="exam-header-bar">
+                            <div>
+                                <span id="question-category" class="hero-tag" style="background: var(--bg-tag-info); color: var(--gcp-blue); border: 1px solid rgba(59, 130, 246, 0.2); font-size: 0.75rem; font-weight: 700; text-transform: uppercase;">Domain Category</span>
+                                <h3 id="question-title" style="font-size: 1.25rem; font-weight: 800; margin-top: 0.25rem;">Question X of 20</h3>
+                            </div>
+                            <div class="exam-timer" id="exam-timer">120:00</div>
+                        </div>
+
+                        <!-- Progress indicator -->
+                        <div class="progress-track" style="margin: 1.5rem 0;">
+                            <div class="progress-bar" id="exam-progress-bar"></div>
+                        </div>
+
+                        <!-- Question Scenario -->
+                        <div class="scenario-box" id="question-text" style="margin-bottom: 2rem;">
+                            Question scenario loaded here...
+                        </div>
+
+                        <!-- Options Container -->
+                        <div class="options-list" id="options-container" style="margin-bottom: 2rem;">
+                            <!-- Radios loaded dynamically in quiz.js -->
+                        </div>
+
+                        <!-- Feedback Explanation Card -->
+                        <div class="explanation-card" id="explanation-card" style="margin-bottom: 2rem; display: none;">
+                            <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                                <div id="explanation-icon" class="stat-icon"></div>
+                                <div>
+                                    <h4 id="explanation-header" style="font-size: 1rem; font-weight: 700;">Result</h4>
+                                    <p id="explanation-text" style="font-size: 0.9rem; margin-top: 0.25rem; line-height: 1.5;"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Navigation controls -->
+                        <div style="display: flex; justify-content: flex-end; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
+                            <button id="btn-submit" class="btn btn-primary" onclick="submitAnswer()">Submit Choice</button>
+                            <button id="btn-next" class="btn btn-secondary" onclick="nextQuestion()" style="display: none;">
+                                <span>Next Question</span>
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Exam Scorecard Results View -->
+                    <div id="exam-results" class="results-box" style="display: none;">
+                        <div id="results-medal" style="font-size: 4rem;">🎉</div>
+                        <h3 style="font-size: 1.75rem; font-weight: 900;">Exam Completed!</h3>
+                        
+                        <div class="score-badge">
+                            <h4>Final Score</h4>
+                            <span id="results-score" class="score-value">0 / 20</span>
+                            <span id="results-pct" class="score-percentage">0%</span>
+                        </div>
+
+                        <p id="results-msg" style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6;">
+                            Your exam metrics have been written successfully. Go to the Skill Levels or Study Planner tabs to evaluate your progress.
+                        </p>
+
+                        <div style="display: flex; gap: 1rem; width: 100%; justify-content: center; margin-top: 1rem;">
+                            <button onclick="switchTab('assessment')" class="btn btn-primary" style="flex: 1; max-width: 200px;">View Skill Levels</button>
+                            <button onclick="restartExamSetup()" class="btn btn-secondary" style="flex: 1; max-width: 200px;">Retake Exam</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SKILL LEVELS TAB -->
+            <div id="content-assessment" class="tab-content">
+                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                    <h2 style="font-size: 1.5rem; font-weight: 800;">GCP Domain Skill Level Assessment</h2>
+                    <p style="color: var(--text-secondary); font-size: 0.95rem;">
+                        This dashboard tracks your performance across the core 10 GCP domains. Levels are automatically calculated based on your mock exam outcomes.
+                    </p>
+                </div>
+
+                <div class="levels-container" id="level-container">
+                    <!-- Dynamic level blocks rendered by assessment.js -->
+                </div>
+
+                <div class="glass-card" style="border-left: 4px solid var(--gcp-blue); display: flex; gap: 1rem; align-items: flex-start;">
+                    <div class="stat-icon blue" style="flex-shrink: 0;">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                    </div>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5;">
+                        <strong>Level Thresholds:</strong> Beginner (under 70% in domain queries) indicates that you should focus on core reading material. Intermediate (70% - 89%) indicates stable knowledge with some topics needing review. Advanced (90%+) indicates verified mastery of that specific domain.
+                    </p>
+                </div>
+            </div>
+
+            <!-- STUDY PLANNER TAB -->
+            <div id="content-planner" class="tab-content">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                    <div>
+                        <h2 style="font-size: 1.5rem; font-weight: 800;">Your Actionable Study Plan & Reference Guides</h2>
+                        <p style="color: var(--text-secondary); font-size: 0.95rem; margin-top: 0.25rem;">
+                            Complete these reading tasks and hands-on checkpoints to lock in your PCA exam readiness.
+                        </p>
+                    </div>
+                    <button onclick="resetPlannerProgress()" class="btn btn-danger" style="font-size: 0.8rem; padding: 0.5rem 1rem;">Reset Checklists</button>
+                </div>
+
+                <div class="planner-list" id="planner-recommendations-container">
+                    <!-- Dynamic planner recommendation cards rendered by planner.js -->
+                </div>
+            </div>
+
+            <!-- NOTES / CHEAT SHEETS TAB -->
+            <div id="content-notes" class="tab-content">
+                <div class="glass-card notes-container">
+                    <!-- Left Rail Buttons Index -->
+                    <div class="notes-nav">
+                        <span style="font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: var(--text-muted); padding: 0.5rem 0.75rem; letter-spacing: 0.05em;">Cheat Sheet Modules</span>
+                        <button onclick="selectNoteSection('part1')" id="btn-note-part1" class="notes-nav-btn active">Part I: Ops &amp; Dev Tools</button>
+                        <button onclick="selectNoteSection('part2')" id="btn-note-part2" class="notes-nav-btn">Part II: Networking &amp; LB</button>
+                        <button onclick="selectNoteSection('part3')" id="btn-note-part3" class="notes-nav-btn">Part III: Security &amp; IAM</button>
+                        <button onclick="selectNoteSection('part4')" id="btn-note-part4" class="notes-nav-btn">Part IV: Storage &amp; Encrypt</button>
+                        <button onclick="selectNoteSection('part5')" id="btn-note-part5" class="notes-nav-btn">Part V: Virtual Machines</button>
+                        <button onclick="selectNoteSection('part6')" id="btn-note-part6" class="notes-nav-btn">Part VI: Managed Compute</button>
+                        <button onclick="selectNoteSection('part7')" id="btn-note-part7" class="notes-nav-btn">Part VII: GKE / Kubernetes</button>
+                        <button onclick="selectNoteSection('part8')" id="btn-note-part8" class="notes-nav-btn">Part VIII: Anthos &amp; Hybrid</button>
+                        <button onclick="selectNoteSection('part9')" id="btn-note-part9" class="notes-nav-btn">Part IX: Databases &amp; Pipelines</button>
+                        <button onclick="selectNoteSection('part10')" id="btn-note-part10" class="notes-nav-btn">Part X: Case Studies &amp; SRE</button>
+                    </div>
+
+                    <!-- Right Rail Dynamic Content Area -->
+                    <div id="notes-content-container" class="notes-content-area">
+                        <!-- Loaded dynamically by UI.selectNoteSection -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer class="app-footer">
+                <p>© 2026 Professional Cloud Architect Preparation Hub. Crafted as a personal study assistant.</p>
+                <p style="margin-top: 0.25rem;">
+                    Content synthesizes resources from <a href="https://sebhook.com" target="_blank" style="color: var(--gcp-blue); text-decoration: none;">sebhook.com</a>, 
+                    Dan Sullivan's Official Sybex Study Guide, 
+                    <a href="https://github.com/vaquarkhan/Google-Certified-Architect-exam-resources" target="_blank" style="color: var(--gcp-blue); text-decoration: none;">Vaquar Khan's Exam Resources</a>, 
+                    and Google Cloud Official Case Studies.
+                </p>
+            </footer>
+
+        </main>
+    </div>
+
+    <!-- Database Layer Data Files -->
+    <script src="js/data/questions.js"></script>
+    <script src="js/data/notes.js"></script>
+
+    <!-- Application Logic Modules -->
+    <script src="js/modules/ui.js"></script>
+    <script src="js/modules/quiz.js"></script>
+    <script src="js/modules/assessment.js"></script>
+    <script src="js/modules/planner.js"></script>
+
+    <!-- Main Orchestrator -->
+    <script src="js/main.js"></script>
+</body>
+
+</html>
