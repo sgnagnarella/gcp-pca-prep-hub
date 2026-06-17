@@ -1,0 +1,83 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: users/{uid}/progress
+    // Document: stats
+    // Fields:
+    //   - completedCount:    number (required) - total exams completed
+    //   - bestScore:         number | null (required) - best % score
+    //   - totalScores:       number (required) - sum of all scores for avg calc
+    //   - categoryAverages:  map (required) - per-domain score tracking
+    //   - lastUpdated:       timestamp (optional) - server-set timestamp
+    //
+    // Document: planner
+    // Fields:
+    //   - checkedItems:  list of strings (required) - checked item IDs, max 500
+    //   - lastUpdated:   timestamp (optional) - server-set timestamp
+    //
+    // Access: Owner-only. No user can access another user's data.
+    // ===============================================================
+
+    // ─── Helper Functions ─────────────────────────────────────────────────────
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return isAuthenticated() && request.auth.uid == uid;
+    }
+
+    // Validate the stats document shape
+    function isValidStats(data) {
+      return data.keys().hasOnly(['completedCount', 'bestScore', 'totalScores', 'categoryAverages', 'lastUpdated'])
+          && data.completedCount is number
+          && data.completedCount >= 0
+          && data.completedCount <= 100000
+          && (data.bestScore == null || (data.bestScore is number && data.bestScore >= 0 && data.bestScore <= 100))
+          && data.totalScores is number
+          && data.totalScores >= 0
+          && data.totalScores <= 10000000
+          && data.categoryAverages is map
+          && data.categoryAverages.size() <= 20;
+    }
+
+    // Validate the planner document shape
+    function isValidPlanner(data) {
+      return data.keys().hasOnly(['checkedItems', 'lastUpdated'])
+          && data.checkedItems is list
+          && data.checkedItems.size() <= 500;
+    }
+
+    // ─── Rules ────────────────────────────────────────────────────────────────
+
+    // Deny everything by default
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // User progress: only the authenticated owner can read/write their own data
+    match /users/{uid}/progress/{docId} {
+      allow read: if isOwner(uid);
+
+      allow create: if isOwner(uid)
+          && (
+            (docId == 'stats' && isValidStats(request.resource.data))
+            || (docId == 'planner' && isValidPlanner(request.resource.data))
+          );
+
+      allow update: if isOwner(uid)
+          && (
+            (docId == 'stats' && isValidStats(request.resource.data))
+            || (docId == 'planner' && isValidPlanner(request.resource.data))
+          );
+
+      // No deletes (no delete feature in the app)
+      allow delete: if false;
+    }
+  }
+}

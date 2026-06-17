@@ -1,7 +1,6 @@
 /**
  * GCP PCA Prep Hub — Firebase Module
- * Initializes Firebase App, Auth (Google Sign-In), and Firestore.
- * Exposes window.FirebaseService for use by other modules.
+ * Firebase App, Auth (Google + Email/Password), Firestore, and auth state.
  */
 
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.9.0/firebase-app.js';
@@ -10,14 +9,19 @@ import {
     GoogleAuthProvider,
     signInWithPopup,
     signOut,
-    onAuthStateChanged
+    onAuthStateChanged,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    updateProfile,
+    connectAuthEmulator
 } from 'https://www.gstatic.com/firebasejs/11.9.0/firebase-auth.js';
 import {
     getFirestore,
     doc,
     getDoc,
     setDoc,
-    serverTimestamp
+    serverTimestamp,
+    connectFirestoreEmulator
 } from 'https://www.gstatic.com/firebasejs/11.9.0/firebase-firestore.js';
 
 // ─── Firebase Config ──────────────────────────────────────────────────────────
@@ -36,13 +40,15 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const googleProvider = new GoogleAuthProvider();
 
+// Connect to Firebase Emulators in local development
+if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
+    connectAuthEmulator(auth, "http://localhost:9099");
+    connectFirestoreEmulator(db, "localhost", 8080);
+    console.log('[Firebase] Connected to local Emulators (Auth: 9099, Firestore: 8080)');
+}
+
 // ─── Firestore Helpers ────────────────────────────────────────────────────────
 
-/**
- * Save stats object to Firestore for the given user.
- * @param {string} uid
- * @param {object} stats
- */
 async function saveStatsToFirestore(uid, stats) {
     try {
         await setDoc(doc(db, 'users', uid, 'progress', 'stats'), {
@@ -54,18 +60,11 @@ async function saveStatsToFirestore(uid, stats) {
     }
 }
 
-/**
- * Load stats from Firestore for the given user.
- * Returns null if no document exists.
- * @param {string} uid
- * @returns {object|null}
- */
 async function loadStatsFromFirestore(uid) {
     try {
         const snap = await getDoc(doc(db, 'users', uid, 'progress', 'stats'));
         if (snap.exists()) {
             const data = snap.data();
-            // Remove Firestore-only field before returning
             delete data.lastUpdated;
             return data;
         }
@@ -76,11 +75,6 @@ async function loadStatsFromFirestore(uid) {
     }
 }
 
-/**
- * Save planner checked items to Firestore.
- * @param {string} uid
- * @param {string[]} checkedItems
- */
 async function savePlannerToFirestore(uid, checkedItems) {
     try {
         await setDoc(doc(db, 'users', uid, 'progress', 'planner'), {
@@ -92,12 +86,6 @@ async function savePlannerToFirestore(uid, checkedItems) {
     }
 }
 
-/**
- * Load planner checked items from Firestore.
- * Returns null if no document exists.
- * @param {string} uid
- * @returns {string[]|null}
- */
 async function loadPlannerFromFirestore(uid) {
     try {
         const snap = await getDoc(doc(db, 'users', uid, 'progress', 'planner'));
@@ -116,50 +104,68 @@ onAuthStateChanged(auth, async (user) => {
     window._currentUser = user || null;
 
     if (user) {
-        console.log('[Firebase] Signed in as:', user.displayName);
+        console.log('[Firebase] Signed in:', user.displayName || user.email);
 
-        // Load stats from Firestore and apply to app state
+        // Load remote stats
         const remoteStats = await loadStatsFromFirestore(user.uid);
         if (remoteStats) {
             window.stats = remoteStats;
         }
 
-        // Load planner state from Firestore
+        // Load remote planner
         const remotePlanner = await loadPlannerFromFirestore(user.uid);
         if (remotePlanner !== null && window.Planner) {
             window.Planner.applyRemoteCheckedItems(remotePlanner);
         }
 
-        // Refresh UI
+        // Refresh dashboard
         if (window.updateDashboardStats) window.updateDashboardStats();
-        if (window.Assessment) window.Assessment.render();
+        if (window.Assessment) window.Assessment.renderLevels();
+
+        // Hide auth modal, show app
+        if (window.AuthUI) window.AuthUI.hideModal();
+
+    } else {
+        // Show auth modal, hide app
+        if (window.AuthUI) window.AuthUI.showModal();
     }
 
-    // Update auth UI regardless of state
-    if (window.AuthUI) window.AuthUI.render(user);
+    // Update sidebar widget
+    if (window.AuthUI) window.AuthUI.renderWidget(user);
 });
 
-// ─── Sign-In / Sign-Out ───────────────────────────────────────────────────────
+// ─── Auth Methods ─────────────────────────────────────────────────────────────
 
 async function signInWithGoogle() {
     try {
         await signInWithPopup(auth, googleProvider);
-        // onAuthStateChanged will fire automatically and handle data load
     } catch (e) {
         if (e.code !== 'auth/popup-closed-by-user' && e.code !== 'auth/cancelled-popup-request') {
-            console.error('[Firebase] Sign-in error:', e);
-            alert('Sign-in failed. Please try again.');
+            throw e; // re-throw for AuthUI to handle
         }
     }
 }
 
+async function signUpWithEmail(email, password, displayName) {
+    const credential = await createUserWithEmailAndPassword(auth, email, password);
+    if (displayName) {
+        await updateProfile(credential.user, { displayName });
+    }
+    return credential.user;
+}
+
+async function signInWithEmail(email, password) {
+    const credential = await signInWithEmailAndPassword(auth, email, password);
+    return credential.user;
+}
+
 async function signOutUser() {
-    try {
-        await signOut(auth);
-        window._currentUser = null;
-        if (window.AuthUI) window.AuthUI.render(null);
-    } catch (e) {
-        console.error('[Firebase] Sign-out error:', e);
+    await signOut(auth);
+    window._currentUser = null;
+    window._isGuestMode = false;
+    if (window.AuthUI) {
+        window.AuthUI.renderWidget(null);
+        window.AuthUI.showModal();
     }
 }
 
@@ -168,6 +174,8 @@ window.FirebaseService = {
     auth,
     db,
     signInWithGoogle,
+    signUpWithEmail,
+    signInWithEmail,
     signOutUser,
     saveStatsToFirestore,
     loadStatsFromFirestore,

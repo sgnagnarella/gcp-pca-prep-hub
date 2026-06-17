@@ -37,6 +37,9 @@
                 filteredQuestions = masterList.filter(q => selectedCategories.includes(q.category));
             }
 
+            // Deduplicate questions to prevent identical templates (with different company names) appearing in the same exam
+            filteredQuestions = this.getUniqueQuestions(filteredQuestions);
+
             if (filteredQuestions.length === 0) {
                 alert("No questions match your selected categories. Please adjust your filters.");
                 return;
@@ -108,6 +111,19 @@
         getRandomSubset: function(arr, n) {
             const shuffled = [...arr].sort(() => 0.5 - Math.random());
             return shuffled.slice(0, Math.min(n, arr.length));
+        },
+
+        // Returns only unique questions based on options and explanation to prevent duplicates
+        getUniqueQuestions: function(arr) {
+            const seen = new Set();
+            return arr.filter(q => {
+                const key = `${q.explanation}|${q.options ? q.options.join('|') : ''}`;
+                if (seen.has(key)) {
+                    return false;
+                }
+                seen.add(key);
+                return true;
+            });
         },
 
         updateTimerDisplay: function() {
@@ -231,7 +247,7 @@
                 expIcon.innerHTML = `<svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>`;
                 expHeader.innerText = "Incorrect Choice";
             }
-            expText.innerText = q.explanation;
+            expText.innerHTML = q.explanation;
         },
 
         // Proceed to next question or end

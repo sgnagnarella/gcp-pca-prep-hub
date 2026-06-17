@@ -103,7 +103,11 @@ The study materials, cheat sheets, and practice scenario questions in this Hub w
 
 1. **Vaquar Khan's Google Certified Architect Resources**: Referenced for exam guidelines, practice scenarios, cheatsheets, and architecture mappings.
    - [Google-Certified-Architect-exam-resources (GitHub)](https://github.com/vaquarkhan/Google-Certified-Architect-exam-resources)
-2. **Official Sybex Study Guide**: Study references mapping to Dan Sullivan's *Google Cloud Certified Professional Cloud Architect Study Guide*.
+2. **Official Sybex Study Guide**: Study references mapping to Dan Sullivan's *Official Google Cloud Certified Professional Cloud Architect Study Guide*.
+   - [Official Google Cloud Certified Professional Cloud Architect Study Guide (PDF on GitHub)](https://github.com/riyaz-programmer/books/blob/master/Official%20Google%20Cloud%20Certified%20Professional%20Cloud%20Architect%20Study%20Guide.pdf)
 3. **Sebastian's Certified Study Notes**: Exam briefs and cheat sheet highlights from `sebhook.com`.
-4. **Google Cloud Architecture Framework & Documentation**: Official blueprinted patterns, product specifications, SLA criteria, and official case study briefs (Mountkirk Games, TerramEarth, Dress4Win, EHR Healthcare, and JencoMart).
-   - [Google Cloud Certification Guide & Case Studies (Official)](https://cloud.google.com/learn/certification/cloud-architect)
+   - [Google Cloud Professional Cloud Architect (PCA) Full Exam Guide](https://sebhook.com/2024/08/28/google-cloud-professional-cloud-architect-pca-full-exam-guide/)
+4. **Google Cloud Architecture Framework**: Official blueprinted patterns and framework pillars.
+   - [Google Cloud Architecture Framework (Official)](https://docs.cloud.google.com/architecture/framework)
+5. **Professional Cloud Architect Exam Guide**: Official outline including exam sections, SRE guidance, and case studies (Mountkirk Games, TerramEarth, Dress4Win, EHR Healthcare, and JencoMart).
+   - [Professional Cloud Architect Exam Guide (Official PDF)](https://services.google.com/fh/files/misc/professional_cloud_architect_exam_guide_english.pdf)

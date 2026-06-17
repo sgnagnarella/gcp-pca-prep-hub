@@ -28,8 +28,8 @@ const path = require('path');
     });
 
     try {
-        console.log("Navigating to http://localhost:8000/ ...");
-        await page.goto('http://localhost:8000/', { waitUntil: 'networkidle' });
+        console.log("Navigating to http://localhost:5000/ ...");
+        await page.goto('http://localhost:5000/', { waitUntil: 'networkidle' });
 
         console.log("Page loaded. Checking title...");
         const title = await page.title();
@@ -38,13 +38,16 @@ const path = require('path');
             throw new Error(`Unexpected page title: ${title}`);
         }
 
+        console.log("Bypassing auth modal by clicking Continue as Guest...");
+        await page.click('.auth-guest-btn');
+
         console.log("Clicking 'Mock Exam' tab...");
         await page.click('#tab-exam');
 
         console.log("Verifying setup screen visibility and initial question count...");
         const totalLabel = await page.textContent('#import-total-label');
         console.log(`Total label: "${totalLabel}"`);
-        if (!totalLabel.includes("Total Questions: 200 (0 Custom Imported)")) {
+        if (!totalLabel.includes("Total Questions: 300 (0 Custom Imported)")) {
             throw new Error(`Unexpected initial questions count label: ${totalLabel}`);
         }
 
@@ -110,7 +113,7 @@ const path = require('path');
         console.log("Verifying updated total question count...");
         const updatedTotalLabel = await page.textContent('#import-total-label');
         console.log(`Updated total label: "${updatedTotalLabel}"`);
-        if (!updatedTotalLabel.includes("Total Questions: 201 (1 Custom Imported)")) {
+        if (!updatedTotalLabel.includes("Total Questions: 301 (1 Custom Imported)")) {
             throw new Error(`Import verification failed. Label: ${updatedTotalLabel}`);
         }
 
@@ -122,18 +125,18 @@ const path = require('path');
         });
         console.log("Select dropdown options:", selectOptions);
         const allOption = selectOptions.find(opt => opt.value === 'all');
-        if (!allOption || !allOption.text.includes("201")) {
+        if (!allOption || !allOption.text.includes("301")) {
             throw new Error(`Selector 'all' option did not update. Option: ${JSON.stringify(allOption)}`);
         }
 
-        console.log("Starting session with 201 questions to verify stability...");
+        console.log("Starting session with 21 questions to verify stability...");
         await page.selectOption('#exam-count-selector', 'all');
         await page.click('#exam-setup button.btn-primary');
         await page.waitForSelector('#exam-active', { state: 'visible' });
 
         const activeQuestionTitle = await page.textContent('#question-title');
         console.log(`Active session title: "${activeQuestionTitle}"`);
-        if (!activeQuestionTitle.includes("Question 1 of 201")) {
+        if (!activeQuestionTitle.includes("Question 1 of 301")) {
             throw new Error(`Unexpected custom session title: ${activeQuestionTitle}`);
         }
 

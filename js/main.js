@@ -66,9 +66,9 @@
         localStorage.setItem('pca_stats', JSON.stringify(window.stats));
         localStorage.setItem('pca_custom_questions', JSON.stringify(window.customQuestionsList));
 
-        // Sync to Firestore when a user is signed in
+        // Sync to Firestore when a user is signed in (not in guest mode)
         const user = window._currentUser;
-        if (user && window.FirebaseService) {
+        if (user && !window._isGuestMode && window.FirebaseService) {
             window.FirebaseService.saveStatsToFirestore(user.uid, window.stats)
                 .catch(e => console.warn('[Main] Firestore stats sync failed:', e));
         }

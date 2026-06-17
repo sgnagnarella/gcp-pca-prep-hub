@@ -167,7 +167,7 @@ console.log("\nStarting logical unit tests...\n");
 // --- TEST 1: Default Master Database Size ---
 console.log("--- TEST 1: Master Database Init ---");
 global.loadStorage();
-assert(global.masterQuestionsList.length === 200, `Expected 200 default questions, got ${global.masterQuestionsList.length}`);
+assert(global.masterQuestionsList.length === 300, `Expected 300 default questions, got ${global.masterQuestionsList.length}`);
 
 // --- TEST 2: Quiz Count Selection & Start ---
 console.log("\n--- TEST 2: Quiz Selection & Start ---");
@@ -247,7 +247,7 @@ global.Quiz.handleImport({
 });
 
 assert(global.customQuestionsList.length === 1, `Expected 1 custom question, got ${global.customQuestionsList.length}`);
-assert(global.masterQuestionsList.length === 201, `Expected master questions database to grow to 201, got ${global.masterQuestionsList.length}`);
+assert(global.masterQuestionsList.length === 301, `Expected master questions database to grow to 301, got ${global.masterQuestionsList.length}`);
 
 // Verify it persisted in local storage mock
 const storedCustom = localStorageMock.getItem('pca_custom_questions');
@@ -258,6 +258,6 @@ assert(JSON.parse(storedCustom).length === 1, "Expected localStorage custom list
 console.log("\n--- TEST 6: Clear Imported Banks ---");
 global.Quiz.clearCustom();
 assert(global.customQuestionsList.length === 0, `Expected 0 custom questions after clearing, got ${global.customQuestionsList.length}`);
-assert(global.masterQuestionsList.length === 200, `Expected master database to reset to 200, got ${global.masterQuestionsList.length}`);
+assert(global.masterQuestionsList.length === 300, `Expected master database to reset to 300, got ${global.masterQuestionsList.length}`);
 
 console.log("\n🎉 ALL IN-MEMORY INTEGRATION TESTS COMPLETED SUCCESSFULLY! ✅");
